@@ -163,8 +163,12 @@ send_email_with_images <- function(rmarkdown_path){
   url_list <- NULL
 
   for(p in paths){
-    my_url <- send_image(p)
-    url_list <- c(url_list, my_url)
+    resp <- send_image(p)
+
+    url <- resp |>
+      httr2::resp_body_json() |>
+      purrr::pluck("image")
+    url_list <- c(url_list, url)
   }
 
   names(url_list) <- rel_paths
@@ -177,11 +181,11 @@ send_email_with_images <- function(rmarkdown_path){
     md_char <- stringr::str_replace(md_char, rel_paths[i], url_list[i])
   }
 
-  title <- rmarkdown::yaml_front_matter(file_md)$title
-  readr::write_lines(md_char, file = file_md)
+  title <- rmarkdown::yaml_front_matter(rmarkdown_path)$title
+  readr::write_lines(md_char, file = file_md,append = FALSE)
   resp <- send_email_md(md_char, title)
 
-  return(list(resp=resp, url_list=url_list))
+  return(resp)
 }
 
 #' Sends a
@@ -213,11 +217,9 @@ send_image <- function(filepath){
     cli::cli_abort(paste("Bad response from server:", status_code))
   }
 
-  url <- resp |>
-    httr2::resp_body_json() |>
-    purrr::pluck("image")
 
-  return(url)
+
+  return(resp)
 }
 
 #' Title
