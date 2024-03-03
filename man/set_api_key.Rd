@@ -9,4 +9,8 @@ set_api_key()
 \description{
 This function will set your api key in your keyring
 You can always check whether it's set by running get_api_key()
+.
+When run, it will open a keyring dialog box prompting you to enter your API
+key. This is better because your API key isn't stored in your history and is
+secure.
 }

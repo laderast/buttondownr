@@ -2,18 +2,21 @@
 % Please edit documentation in R/buttondown.R
 \name{send_email_with_images}
 \alias{send_email_with_images}
-\title{Render email with images
-Given}
+\title{Render email with images}
 \usage{
-send_email_with_images(rmarkdown_path)
+send_email_with_images(markdown_path)
 }
 \arguments{
-\item{rmarkdown_path}{}
+\item{markdown_path}{}
 }
 \value{
-list with the following values:
+htte2 response if successful.
 }
 \description{
-Render email with images
-Given
+Given a path to a markdown file, renders plots to graphics and text to
+github flavored markdown and uploads images to Buttondown API, substituting
+the image paths with buttondown URLs.
+}
+\details{
+This is helpful because you hit size limits with email clients.
 }

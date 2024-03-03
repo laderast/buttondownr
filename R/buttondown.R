@@ -150,26 +150,32 @@ send_email_md <- function(md_text, title){
 }
 
 #' Render email with images
-#' Given
-#' @param rmarkdown_path
 #'
-#' @return list with the following values:
+#' Given a path to a markdown file, renders plots to graphics and text to
+#' github flavored markdown and uploads images to Buttondown API, substituting
+#' the image paths with buttondown URLs.
+#'
+#' This is helpful because you hit size limits with email clients.
+#'
+#' @param markdown_path
+#'
+#' @return htte2 response if successful.
 #' @export
 #'
 #' @examples
-send_email_with_images <- function(rmarkdown_path){
+send_email_with_images <- function(markdown_path){
 
-  file_name <- tools::file_path_sans_ext(rmarkdown_path)
+  file_name <- tools::file_path_sans_ext(markdown_path)
 
   image_dir_relative <- file_name |>
     fs::path_file() |> paste0("_files") |> paste0("/figure-gfm/")
 
-  file_md <- fs::path_ext_remove(rmarkdown_path) |>
+  file_md <- fs::path_ext_remove(markdown_path) |>
     paste0(".md")
 
   image_dir <- file_name |> paste0("_files") |> paste0("/figure-gfm/")
 
-  rmarkdown::render(rmarkdown_path, params = NULL)
+  rmarkdown::render(markdown_path, params = NULL)
 
   if(!fs::file_exists(file_md)){
     cli::cli_abort("Markdown file not created")
@@ -202,7 +208,7 @@ send_email_with_images <- function(rmarkdown_path){
     md_char <- stringr::str_replace(md_char, rel_paths[i], url_list[i])
   }
 
-  title <- rmarkdown::yaml_front_matter(rmarkdown_path)$title
+  title <- rmarkdown::yaml_front_matter(markdown_path)$title
   readr::write_lines(md_char, file = file_md,append = FALSE)
   resp <- send_email_md(md_char, title)
 
@@ -211,9 +217,9 @@ send_email_with_images <- function(rmarkdown_path){
 
 #' Sends an image to the buttondown API
 #'
-#' @param filepath
+#' @param filepath - path to an image file
 #'
-#' @return resp - response from buttondown server
+#' @return resp - httr2 response from buttondown server
 #' @export
 #'
 #' @examples
@@ -238,8 +244,6 @@ send_image <- function(filepath){
     cli::cli_abort(paste("Bad response from server:", status_code))
   }
 
-
-
   return(resp)
 }
 
@@ -247,7 +251,10 @@ send_image <- function(filepath){
 #'
 #' This function will set your api key in your keyring
 #' You can always check whether it's set by running get_api_key()
-#'
+#'.
+#' When run, it will open a keyring dialog box prompting you to enter your API
+#' key. This is better because your API key isn't stored in your history and is
+#' secure.
 #'
 #' @return
 #' @export
@@ -259,6 +266,9 @@ set_api_key <- function() {
 
 
 #' gets a buttondown API key as plaintext from the keychain
+#'
+#' Note that you may have to give rstudio permission to access your keychain
+#' the first time you run it.
 #'
 #' @return api_key
 #' @export

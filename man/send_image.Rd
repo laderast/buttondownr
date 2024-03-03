@@ -7,10 +7,10 @@
 send_image(filepath)
 }
 \arguments{
-\item{filepath}{}
+\item{filepath}{- path to an image file}
 }
 \value{
-resp - response from buttondown server
+resp - httr2 response from buttondown server
 }
 \description{
 Sends an image to the buttondown API

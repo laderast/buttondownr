@@ -10,5 +10,6 @@ get_api_key()
 api_key
 }
 \description{
-gets a buttondown API key as plaintext from the keychain
+Note that you may have to give rstudio permission to access your keychain
+the first time you run it.
 }
