@@ -2,10 +2,11 @@
 % Please edit documentation in R/buttondown.R
 \name{set_api_key}
 \alias{set_api_key}
-\title{Title}
+\title{Stores an API key to the keyring}
 \usage{
 set_api_key()
 }
 \description{
-Title
+This function will set your api key in your keyring
+You can always check whether it's set by running get_api_key()
 }

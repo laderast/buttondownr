@@ -5,8 +5,10 @@
 #'
 #' @examples
 #'
-#' if(interactive){
-#'
+#' if(interactive()){
+#'   #make sure your api key is set using set_api_key()
+#'   df <- get_subscribers()
+#'   head(df)
 #' }
 get_subscribers <- function(){
 
@@ -42,10 +44,17 @@ get_subscribers <- function(){
 
 #'  List all emails and their status
 #'
-#' @return data.frame of emails
+#' @return data.frame of emails with the following columns:
+#'
 #' @export
 #'
 #' @examples
+#'
+#' if(interactive()){
+#'   # make sure you've set your api key with set_api_key()
+#'   df <- list_emails()
+#'   head(df)
+#' }
 list_emails <- function(){
 
   endpoint_url <- "https://api.buttondown.email/v1/emails"
@@ -74,22 +83,34 @@ list_emails <- function(){
 #' This function will send a rendered blastula HTML from a markdown file
 #' as a httr2::request() to the buttondown API.
 #'
-#' @param input_qmd
-#' @param draft
+#' This function differs in that it will send the entire HTML rendered by
+#' blastula, including encoded plots and graphics.
+#'
+#' The disadvantage of using this function is that it renders larger HTML files,
+#' and most email clients will cut these off. If that's the case, then use
+#' send_email_with_images() to upload images to the buttondown API and send
+#' a smaller markdown file instead.
+#'
+#' @param input_rmd - path to an rmarkdown document
+#' @param draft - status of email. By default, set to `draft`
 #'
 #' @return response
 #' @export
 #'
 #' @examples
-send_email <- function(input_qmd, draft=FALSE){
+#' if(interactive()){
+#'
+#'
+#' }
+send_email <- function(input_rmd, draft=FALSE){
 
     endpoint_url <- "https://api.buttondown.email/v1/emails"
     api_key <- get_api_key()
     api_format <- paste("Token", api_key)
 
-    subject <- rmarkdown::yaml_front_matter(input_qmd)$title
+    subject <- rmarkdown::yaml_front_matter(input_rmd)$title
 
-    blast_message <- blastula::render_email(input_qmd)
+    blast_message <- blastula::render_email(input_rmd)
     html_rendered <- blast_message$html_html
 
     req_list <- list(
@@ -188,11 +209,11 @@ send_email_with_images <- function(rmarkdown_path){
   return(resp)
 }
 
-#' Sends a
+#' Sends an image to the buttondown API
 #'
 #' @param filepath
 #'
-#' @return
+#' @return resp - response from buttondown server
 #' @export
 #'
 #' @examples
@@ -222,7 +243,11 @@ send_image <- function(filepath){
   return(resp)
 }
 
-#' Title
+#' Stores an API key to the keyring
+#'
+#' This function will set your api key in your keyring
+#' You can always check whether it's set by running get_api_key()
+#'
 #'
 #' @return
 #' @export
@@ -232,6 +257,13 @@ set_api_key <- function() {
   keyring::key_set("BUTTON_API", prompt = "Enter your Buttondown API key: ")
 }
 
+
+#' gets a buttondown API key as plaintext from the keychain
+#'
+#' @return api_key
+#' @export
+#'
+#' @examples
 get_api_key <- function() {
   api_key <- keyring::key_get("BUTTON_API")
 

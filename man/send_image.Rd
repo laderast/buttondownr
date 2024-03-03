@@ -2,13 +2,16 @@
 % Please edit documentation in R/buttondown.R
 \name{send_image}
 \alias{send_image}
-\title{Sends a}
+\title{Sends an image to the buttondown API}
 \usage{
 send_image(filepath)
 }
 \arguments{
 \item{filepath}{}
 }
+\value{
+resp - response from buttondown server
+}
 \description{
-Sends a
+Sends an image to the buttondown API
 }

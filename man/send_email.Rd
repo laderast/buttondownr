@@ -4,10 +4,12 @@
 \alias{send_email}
 \title{Sends a draft email from a Rmarkdown file}
 \usage{
-send_email(input_qmd, draft = FALSE)
+send_email(input_rmd, draft = FALSE)
 }
 \arguments{
-\item{draft}{}
+\item{input_rmd}{- path to an rmarkdown document}
+
+\item{draft}{- status of email. By default, set to `draft`}
 }
 \value{
 response
@@ -15,4 +17,19 @@ response
 \description{
 This function will send a rendered blastula HTML from a markdown file
 as a httr2::request() to the buttondown API.
+}
+\details{
+This function differs in that it will send the entire HTML rendered by
+blastula, including encoded plots and graphics.
+
+The disadvantage of using this function is that it renders larger HTML files,
+and most email clients will cut these off. If that's the case, then use
+send_email_with_images() to upload images to the buttondown API and send
+a smaller markdown file instead.
+}
+\examples{
+if(interactive()){
+
+
+}
 }

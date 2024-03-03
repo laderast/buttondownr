@@ -14,7 +14,9 @@ Get all subscribers as a data.frame
 }
 \examples{
 
-if(interactive){
-
+if(interactive()){
+  #make sure your api key is set using set_api_key()
+  df <- get_subscribers()
+  head(df)
 }
 }

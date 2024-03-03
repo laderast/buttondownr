@@ -7,8 +7,16 @@
 list_emails()
 }
 \value{
-data.frame of emails
+data.frame of emails with the following columns:
 }
 \description{
 List all emails and their status
+}
+\examples{
+
+if(interactive()){
+  # make sure you've set your api key with set_api_key()
+  df <- list_emails()
+  head(df)
+}
 }
