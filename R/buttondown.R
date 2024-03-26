@@ -202,11 +202,11 @@ send_email_with_images <- function(markdown_path){
 
   md_char <- readr::read_file(file_md)
 
-  #purrr::reduce2()
+  #for(i in length(url_list)){
+  #  md_char <- stringr::str_replace(md_char, rel_paths[i], url_list[i])
+  #}
 
-  for(i in length(url_list)){
-    md_char <- stringr::str_replace(md_char, rel_paths[i], url_list[i])
-  }
+  md_char <- stringr::str_replace_all(md_char, url_list)
 
   title <- rmarkdown::yaml_front_matter(markdown_path)$title
   readr::write_lines(md_char, file = file_md,append = FALSE)
