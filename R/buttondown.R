@@ -163,6 +163,10 @@ send_email_md <- function(md_text, title){
 #' @export
 #'
 #' @examples
+#' rmarkdown_file <- system.file("tests/testthat/test_email.md", package="buttondownr")
+#'
+#' resp <- send_email_with_images(rmarkdown_file)
+#' resp
 send_email_with_images <- function(markdown_path){
 
   file_name <- tools::file_path_sans_ext(markdown_path)
@@ -202,10 +206,6 @@ send_email_with_images <- function(markdown_path){
 
   md_char <- readr::read_file(file_md)
 
-  #for(i in length(url_list)){
-  #  md_char <- stringr::str_replace(md_char, rel_paths[i], url_list[i])
-  #}
-
   md_char <- stringr::str_replace_all(md_char, url_list)
 
   title <- rmarkdown::yaml_front_matter(markdown_path)$title
@@ -223,6 +223,9 @@ send_email_with_images <- function(markdown_path){
 #' @export
 #'
 #' @examples
+#' img_file <- system.files("tests/testthat/test_pic.png", package="buttondownr")
+#' resp <- send_image(img_file)
+#' resp
 send_image <- function(filepath){
 
   endpoint_url <- "https://api.buttondown.email/v1/images"
