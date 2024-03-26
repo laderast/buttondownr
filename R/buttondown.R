@@ -44,7 +44,7 @@ get_subscribers <- function(){
 
 #'  List all emails and their status
 #'
-#' @return data.frame of emails with the following columns:
+#' @return data.frame of emails
 #'
 #' @export
 #'

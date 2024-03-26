@@ -7,7 +7,7 @@
 list_emails()
 }
 \value{
-data.frame of emails with the following columns:
+data.frame of emails
 }
 \description{
 List all emails and their status

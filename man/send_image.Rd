@@ -15,3 +15,8 @@ resp - httr2 response from buttondown server
 \description{
 Sends an image to the buttondown API
 }
+\examples{
+img_file <- system.files("tests/testthat/test_pic.png", package="buttondownr")
+resp <- send_image(img_file)
+resp
+}

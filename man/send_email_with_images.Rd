@@ -20,3 +20,9 @@ the image paths with buttondown URLs.
 \details{
 This is helpful because you hit size limits with email clients.
 }
+\examples{
+rmarkdown_file <- system.file("tests/testthat/test_email.md", package="buttondownr")
+
+resp <- send_email_with_images(rmarkdown_file)
+resp
+}
